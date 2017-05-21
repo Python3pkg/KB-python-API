@@ -1,6 +1,6 @@
 import sys
 import requests
-import urllib
+import urllib.request, urllib.parse, urllib.error
 
 from kb.nl.collections import SETS
 from kb.nl.helpers import etree
@@ -110,7 +110,7 @@ class record():
     def __iter__(self):
         return self
 
-    def next(self):
+    def __next__(self):
         if self.sru.nr_of_records == 0:
             raise StopIteration
         if self.sru.startrecord < self.sru.nr_of_records + 1:
@@ -136,7 +136,7 @@ class sru():
                startrecord=1, maximumrecords=1, recordschema=False):
 
         self.maximumrecords = maximumrecords
-        self.query = urllib.quote_plus(query)
+        self.query = urllib.parse.quote_plus(query)
         self.startrecord = startrecord
 
         if collection not in self.sru_collections:
